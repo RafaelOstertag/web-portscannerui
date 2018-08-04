@@ -1,19 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import ScanTarget from './scantarget/ScanTarget';
+import ScanResult from './scanresult/ScanResult';
+import Error from './error/Error'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      scanResult: null,
+      scanFailure: null
+    }
+
+    this.handleScanSuccess = this.handleScanSuccess.bind(this)
+    this.handleScanFailure = this.handleScanFailure.bind(this)
+  }
+
+  handleScanSuccess(result) {
+    this.setState({scanResult : result, scanFailure: null})
+  }
+
+  handleScanFailure(jqXHR, errorTextStatus, error) {
+    let errorMessage = "Thou shallt not anger us"
+    if (jqXHR.responseJSON) {
+      errorMessage = jqXHR.responseJSON.reason
+    }
+    this.setState({scanResult: null, scanFailure: errorMessage})
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <section>
+      <ScanTarget success={this.handleScanSuccess} failure={this.handleScanFailure}/>
+      {this.state.scanResult && <ScanResult scanResult={this.state.scanResult} /> }
+      {this.state.scanFailure && <Error errorMessage={this.state.scanFailure} />}
+      </section>
     );
   }
 }
