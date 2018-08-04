@@ -1,6 +1,6 @@
 {
-  "short_name": "Portscanner",
-  "name": "Portscanner User Interface",
+  "short_name": "Port Scanner",
+  "name": "Online Port Scanner",
   "icons": [
     {
       "src": "favicon.ico",

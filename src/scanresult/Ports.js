@@ -7,24 +7,36 @@ class Ports extends React.Component {
         }
 
         return ports.map(item => {
-            return (<div className="row" key={item.number.toString()}>
-                <div className="col-sm-4">
+            return (
+            <tr key={item.number.toString()}>
+                <td>
                 {item.number}
-                </div>
-                <div className="col-sm-4">
+                </td>
+                <td>
                 {item.state}
-                </div>
-                <div className="col-sm-4">
+                </td>
+                <td>
                 {item.name}
-                </div>
-            </div>)
+                </td>
+            </tr>)
         })
     }
     render() {
         return (
-            <section>
-            <h3>Discovered Ports</h3>
-            {this.explodePorts(this.props.ports)}
+            <section className="mt-2">
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Port</th>
+                        <th>State</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.explodePorts(this.props.ports)}
+                </tbody>
+                <tfoot/>
+            </table>
             </section>
         )
     }
