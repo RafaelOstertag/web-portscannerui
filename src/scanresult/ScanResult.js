@@ -11,10 +11,20 @@ import PropTypes from "prop-types";
 class ScanResult extends React.Component {
     hostState(hostState) {
         if (hostState === "up") {
-            return <FontAwesomeIcon icon={faCheckCircle} className="ml-3" />;
+            return (
+                <FontAwesomeIcon
+                    icon={faCheckCircle}
+                    className="ml-3 text-success"
+                />
+            );
         }
 
-        return <FontAwesomeIcon icon={faTimesCircle} className="ml-3" />;
+        return (
+            <FontAwesomeIcon
+                icon={faTimesCircle}
+                className="ml-3 text-danger"
+            />
+        );
     }
 
     render() {
