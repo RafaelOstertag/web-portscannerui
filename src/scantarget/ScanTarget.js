@@ -12,16 +12,28 @@ class ScanTarget extends React.Component {
         this.state = {
             host: "",
             ports: "",
-            scanRunning: false
+            scanRunning: false,
+            isValidated: false
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.requestUrl = this.requestUrl.bind(this);
+        this.validate = this.validate.bind(this);
+    }
+
+    validate() {
+        this.setState({ isValidated: true });
+        return this.formEl.checkValidity();
     }
 
     handleSubmit(event) {
         event.preventDefault();
+
+        if (!this.validate()) {
+            return;
+        }
+
         this.setState({ scanRunning: true });
 
         let url = this.requestUrl();
@@ -55,14 +67,21 @@ class ScanTarget extends React.Component {
         const name = target.name;
 
         this.setState({
-            [name]: value
+            [name]: value,
+            isValidated: false
         });
     }
 
     render() {
+        let validationClassName = this.state.isValidated ? "was-validated" : "";
         return (
-            <form onSubmit={this.handleSubmit}>
-                <section className="form-group">
+            <form
+                onSubmit={this.handleSubmit}
+                ref={form => (this.formEl = form)}
+                noValidate
+                className={validationClassName}
+            >
+                <div className="form-group">
                     <label>Host</label>
                     <input
                         className="form-control"
@@ -71,12 +90,17 @@ class ScanTarget extends React.Component {
                         placeholder="Host to scan"
                         name="host"
                         onChange={this.handleChange}
+                        required
+                        pattern="([0-9a-zA-Z-]+\.){2,}[0-9a-zA-Z.-]+"
                     />
                     <small className="form-text text-muted">
                         The host name or IP address to scan
                     </small>
-                </section>
-                <section className="form-group">
+                    <div class="invalid-feedback">
+                        Please enter a hostname or IP address
+                    </div>
+                </div>
+                <div className="form-group">
                     <label>Ports</label>
                     <input
                         className="form-control"
@@ -85,13 +109,17 @@ class ScanTarget extends React.Component {
                         placeholder="Ports to test"
                         name="ports"
                         onChange={this.handleChange}
+                        pattern="^([1-9][0-9]*|[1-9][0-9]*-[1-9][0-9]*|,)*$"
                     />
                     <small className="form-text text-muted">
                         Enter port(s) to scan or leave empty. Multiple ports
                         separated by comma. Port ranges can be specfied with
                         dash. Example: 80,443,8080-8090
                     </small>
-                </section>
+                    <div class="invalid-feedback">
+                        Please enter a valid port specification, or leave empty
+                    </div>
+                </div>
                 {this.state.scanRunning ? (
                     <button className="btn btn-primary" disabled>
                         <FontAwesomeIcon icon={faSpinner} spin /> Scanning
