@@ -28,7 +28,8 @@ class ScanTarget extends React.Component {
         $.get(url)
             .done(
                 scanResult =>
-                    this.props.successHandler && this.props.successHandler(scanResult)
+                    this.props.successHandler &&
+                    this.props.successHandler(scanResult)
             )
             .fail(
                 (jqXHR, errorTextStatus, error) =>
