@@ -45,9 +45,23 @@ pipeline {
 
             steps {
                 sh 'yarn build'
+
                 sh 'tar -C build -cvzf portscannerui-${BRANCH_NAME#release/v}.tar.gz .'
+
                 withCredentials([usernameColonPassword(credentialsId: '80a834f5-b4ca-42b1-b5c6-55db88dca0a4', variable: 'CREDENTIALS')]) {
                     sh 'curl -k -u "$CREDENTIALS" --upload-file portscannerui-${BRANCH_NAME#release/v}.tar.gz "${NEXUS}${REPOSITORY}/${BRANCH_NAME#release/v}/"'
+                }
+
+                script {
+                    def version = env.BRANCH_NAME - 'release/v'
+                    step([$class                 : "RundeckNotifier",
+                          includeRundeckLogs     : true,
+                          jobId                  : "cd3fda26-b00e-4f72-976c-de05257dc82a",
+                          options                : "version=$version",
+                          rundeckInstance        : "gizmo",
+                          shouldFailTheBuild     : true,
+                          shouldWaitForRundeckJob: true,
+                          tailLog                : true])
                 }
             }
         }
