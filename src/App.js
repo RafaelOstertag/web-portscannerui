@@ -30,8 +30,8 @@ class App extends Component {
         return (
             <section>
                 <ScanTarget
-                    success={this.handleScanSuccess}
-                    failure={this.handleScanFailure}
+                    successHandler={this.handleScanSuccess}
+                    failureHandler={this.handleScanFailure}
                 />
                 {this.state.scanResult && (
                     <ScanResult scanResult={this.state.scanResult} />

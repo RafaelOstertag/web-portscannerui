@@ -28,12 +28,12 @@ class ScanTarget extends React.Component {
         $.get(url)
             .done(
                 scanResult =>
-                    this.props.success && this.props.success(scanResult)
+                    this.props.successHandler && this.props.successHandler(scanResult)
             )
             .fail(
                 (jqXHR, errorTextStatus, error) =>
-                    this.props.failure &&
-                    this.props.failure(jqXHR, errorTextStatus, error)
+                    this.props.failureHandler &&
+                    this.props.failureHandler(jqXHR, errorTextStatus, error)
             )
             .always(() => {
                 this.setState({ scanRunning: false });
@@ -108,8 +108,8 @@ class ScanTarget extends React.Component {
 }
 
 ScanTarget.propTypes = {
-    success: PropTypes.object.isRequired,
-    failure: PropTypes.string.isRequired
+    successHandler: PropTypes.func,
+    failureHandler: PropTypes.func
 };
 
 export default ScanTarget;

@@ -49,7 +49,7 @@ ScanResult.propTypes = {
         state: PropTypes.string.isRequired,
         ports: PropTypes.array.isRequired,
         addresses: PropTypes.array.isRequired,
-        hosts: PropTypes.array.isRequired
+        hostnames: PropTypes.array.isRequired
     })
 };
 
