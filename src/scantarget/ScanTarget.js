@@ -91,7 +91,7 @@ class ScanTarget extends React.Component {
                         name="host"
                         onChange={this.handleChange}
                         required
-                        pattern="([0-9a-zA-Z-]+\.){2,}[0-9a-zA-Z.-]+"
+                        pattern="([0-9a-zA-Z-]+\.)[0-9a-zA-Z.-]+"
                     />
                     <small className="form-text text-muted">
                         The host name or IP address to scan
