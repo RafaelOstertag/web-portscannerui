@@ -6,7 +6,7 @@ pipeline {
     environment {
         // Used for tests, to make Jest running all tests without watcher
         CI = "true"
-        NEXUS = "https://gizmo.kruemel.home/nexus/"
+        NEXUS = "https://colossus.kruemel.home/nexus/"
 	    REPOSITORY = "repository/webtools/portscannerui/"
     }
 
