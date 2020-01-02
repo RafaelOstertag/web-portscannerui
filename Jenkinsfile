@@ -16,6 +16,7 @@ pipeline {
 
     options {
         ansiColor('xterm')
+        timestamps()
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')
     }
 
@@ -26,15 +27,22 @@ pipeline {
             }
         }
 
+        stage('install yarn') {
+            steps {
+                sh 'npm install yarn'
+                sh 'rm -f package-lock.json'
+            }
+        }
+
         stage('install packages') {
             steps {
-                sh 'yarn install'
+                sh 'node_modules/yarn/bin/yarn install'
             }
         }
 
         stage('test') {
             steps {
-                sh 'yarn test'
+                sh 'node_modules/yarn/bin/yarn test'
             }
         }
 
@@ -44,7 +52,7 @@ pipeline {
             }
 
             steps {
-                sh 'yarn build'
+                sh 'node_modules/yarn/bin/yarn build'
 
                 sh 'tar -C build -cvzf portscannerui-${BRANCH_NAME#release/v}.tar.gz .'
 
