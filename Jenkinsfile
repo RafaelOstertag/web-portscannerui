@@ -11,22 +11,18 @@ pipeline {
     }
 
     triggers {
-        pollSCM ''
+        pollSCM '@hourly'
+        cron '@daily'
     }
 
     options {
         ansiColor('xterm')
         timestamps()
-        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '15')
+        disableConcurrentBuilds()        
     }
 
     stages {
-        stage('clean') {
-            steps {
-                sh 'rm -rf build'
-            }
-        }
-
         stage('install yarn') {
             steps {
                 sh 'npm install yarn'
@@ -49,6 +45,9 @@ pipeline {
         stage('deploy') {
             when {
                 branch "release/v*"
+                not {
+                    triggeredBy "TimerTrigger"
+                }
             }
 
             steps {
