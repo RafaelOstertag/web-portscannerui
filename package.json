@@ -1,6 +1,6 @@
 {
     "name": "portscannerui",
-    "version": "1.0.8",
+    "version": "1.0.10",
     "private": true,
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.19",

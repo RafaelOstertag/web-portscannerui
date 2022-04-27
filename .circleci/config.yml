@@ -37,7 +37,7 @@ jobs:
           name: Check version
           command: |
             VERSION=$(jq -r .version package.json)
-            if curl -f  -u "${REPO_USERNAME}:${REPO_PASSWORD}" -I "https://rafaelostertag.jfrog.io/artifactory/local-generic/astro-server-web/astro-server-web-${VERSION}.tar.gz" > /dev/null
+            if curl -f  -u "${REPO_USERNAME}:${REPO_PASSWORD}" -I "https://rafaelostertag.jfrog.io/artifactory/local-generic/portscannerui/portscannerui-${VERSION}.tar.gz" > /dev/null
             then
               echo "### Version ${VERSION} already exists in repository" >&2
               exit 1
